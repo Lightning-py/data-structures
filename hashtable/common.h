@@ -10,4 +10,4 @@
 #define OK -1
 #define ERR -2
 
-#endif // COMMON
+#endif  // COMMON
