@@ -113,6 +113,9 @@ int list_pop_front(list *lst)
 
 int list_delete_node(list *lst, node *n)
 {
+    if (!lst || !n)
+        return ERR;
+
     if (n->prev != NULL)
     {
         n->prev->next = n->next;
@@ -132,6 +135,8 @@ int list_delete_node(list *lst, node *n)
     }
 
     free(n);
+
+    return OK;
 }
 
 void list_free(list *lst)
