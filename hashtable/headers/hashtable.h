@@ -20,5 +20,6 @@ void hashtable_free(hashtable *h);
 int hashtable_resize(hashtable *h, ull new_size);
 int hashtable_set_value(hashtable *h, int index, int value);
 int hashtable_get_value(hashtable *h, int index, int *result);
+int hashtable_delete(hashtable *h, int index);
 
 #endif // HASHTABLE_H

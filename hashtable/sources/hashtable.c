@@ -8,8 +8,7 @@ int hashtable_create(hashtable *h)
     if (!h)
         return ERR;
 
-    int status;
-    status = create_vector(&(h->data), HASHTABLE_START_SIZE);
+    int status = create_vector(&(h->data), HASHTABLE_START_SIZE);
 
     if (status != OK)
         return status;
@@ -65,7 +64,6 @@ int hashtable_resize(hashtable *h, ull new_size)
     if (!h)
         return ERR;
 
-    int status;
     void **new_data = calloc(new_size, sizeof(void *));
 
     for (ull i = 0; i < new_size; ++i)
@@ -98,7 +96,7 @@ int hashtable_resize(hashtable *h, ull new_size)
             ull hashtable_index =
                 (((ull)index) * h->hash_mult + h->hash_plus) % new_size;
 
-            status = list_push_back((list *)new_data[hashtable_index], index, value);
+            int status = list_push_back((list *)new_data[hashtable_index], index, value);
 
             if (status != OK)
             {
@@ -127,16 +125,12 @@ int hashtable_resize(hashtable *h, ull new_size)
 
 int hashtable_set_value(hashtable *h, int index, int value)
 {
-    ull hashtable_index;
-    node *n;
-
     if (!h)
         return ERR;
 
-    hashtable_index =
-        (((ull)index) * h->hash_mult + h->hash_plus);
+    ull hashtable_index = (((ull)index) * h->hash_mult + h->hash_plus);
 
-    n = ((list *)h->data.data[hashtable_index % h->data.size])->head;
+    node *n = ((list *)h->data.data[hashtable_index % h->data.size])->head;
     while (n != NULL && n->index != index)
         n = n->next;
 
@@ -173,6 +167,33 @@ int hashtable_get_value(hashtable *h, int index, int *result)
         return OK;
     }
     return NOTEXISTS;
+}
+
+int hashtable_delete(hashtable *h, int index)
+{
+    if (!h || !h->data.data)
+        return ERR;
+
+    ull hashtable_index =
+        (((ull)index) * h->hash_mult + h->hash_plus) % h->data.size;
+
+    list *lst = (list *)h->data.data[hashtable_index];
+
+    node *now = lst->head;
+    while (now != NULL && now->index != index)
+        now = now->next;
+
+    if (now == NULL)
+        return NOTEXISTS;
+
+    int status = list_delete_node(lst, now);
+
+    if (status != OK)
+        return ERR;
+
+    h->size--;
+
+    return OK;
 }
 
 #endif // HASHTABLE_C

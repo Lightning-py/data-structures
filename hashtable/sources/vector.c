@@ -53,7 +53,7 @@ int vector_push_back(vector *v, void *element)
     if (v->occupied == v->size)
     {
         int status = vector_resize(v, v->size * 2);
-        if (status)
+        if (status != OK)
             return ERR;
     }
 

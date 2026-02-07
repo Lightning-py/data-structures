@@ -26,4 +26,4 @@ int list_pop_front(list *lst);
 int list_delete_node(list *lst, node *n);
 void list_free(list *lst);
 
-#endif // LIST
+#endif // LIST_H

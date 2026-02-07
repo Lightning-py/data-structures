@@ -148,4 +148,4 @@ void list_free(list *lst)
         list_pop_back(lst);
 }
 
-#endif // LIST
+#endif // LIST_C
